@@ -51,17 +51,17 @@ app.get('/signupPage.html', (req, res) => {
 
 app.post('/signup', async (req, res) => {
 	// test to return an error
-	res.send({
-		error: 'ERROR MSG',
-	})
+	// res.send({
+	// 	error: 'ERROR MSG',
+	// })
 
 	try {
 		var username = req.body.username
 		var password = req.body.password
-		console.log('username:', username)
-		console.log('password:', password)
+		console.log('username:', username);
+		console.log('password:', password);
 		(async () => {
-			var myobj = { username: "222131", password: "237" };
+			var myobj = { username: username, password: password };
 			const result = await MongoDB.createUser(myobj.username,myobj.password)
 			return result
 		  })()
