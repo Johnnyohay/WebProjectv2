@@ -38,4 +38,4 @@ function login() {
 	})
 }
 
-module.exports = loadPage
+module.exports = loadPage()

@@ -75,7 +75,7 @@ app.post(
 	'/login',
 	checkNotAuthenticated,
 	passport.authenticate('local', {
-		successRedirect: '/',
+		successRedirect: '/homePage',
 		failureRedirect: '/login',
 		failureFlash: true,
 	})
@@ -95,3 +95,19 @@ function checkNotAuthenticated(req, res, next) {
 	}
 	next()
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

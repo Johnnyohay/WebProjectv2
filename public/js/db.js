@@ -48,7 +48,7 @@ const createUser = async function (username, password) {
 			
 			// If the user already exist then do nothing else add
 			if(user.username == username && !exist) {
-				console.log("User already exists ")
+				console.log("User already exists ");
 				exist = true
 				return
 			}
@@ -69,5 +69,6 @@ const createUser = async function (username, password) {
 	}
 }
 
-module.exports = { createUser }
+module.exports = { createUser,  connectDB }
+// module.exports = { connectDB }
 
