@@ -44,7 +44,7 @@ function initialize(passport) {
   // passport.serializeUser((isUser, done) => done(null, isUser.username))
   // //Here we retrieve all the info of the user from the session using the user id stored in the session earlier using serialize user.
   // passport.deserializeUser((id,done) => {
-  //   return done(null, isUser.username)
+    // return done(null, isUser.username)
   // })
 }
 
