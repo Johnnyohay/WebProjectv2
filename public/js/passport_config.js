@@ -14,14 +14,15 @@ function initialize(passport) {
         // Load db & collections
         // var db = MongoDB.getDB();
         // db = db.db(dbName);
-        return db.collection("Users").findOne({username : username});
+         return db.collection("Users").findOne({username : username});
       }).then( isUser => {
-    // console.log(isUser);
+    console.log(isUser);
     console.log(isUser.password, isUser.username);
     console.log(username, password);
     if(isUser == null || isUser == undefined) {
         console.log("Here 3")
-      return done(null, false, { message: 'No user with that username' })
+        alert('No user with that username');
+      //return done(null, false, { message: 'No user with that username' })
     }
 
     try {
@@ -29,7 +30,8 @@ function initialize(passport) {
         console.log("Here 6")
         return done(null, isUser)
       } else {
-        console.log("Here 7")
+        // console.log("Password incorrect");
+        // alert("Password incorrect");
         return done(null, false, { message: 'Password incorrect' })
       }
     } catch (e) {
@@ -38,14 +40,14 @@ function initialize(passport) {
   });
  
   }
-  // console.log("Here 8")
+  console.log("Here 8")
   passport.use(new LocalStrategy({ usernameField: 'username' }, authenticateUser))
   // //In serialize user we decide what to store in the session. Here we're storing the user id only.
-  // passport.serializeUser((isUser, done) => done(null, isUser.username))
+  passport.serializeUser((isUser, done) => done(null, isUser.username))
   // //Here we retrieve all the info of the user from the session using the user id stored in the session earlier using serialize user.
-  // passport.deserializeUser((id,done) => {
-    // return done(null, isUser.username)
-  // })
+  passport.deserializeUser((id,done) => {
+    return done(null, isUser.username)
+  })
 }
 
 module.exports = initialize

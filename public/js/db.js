@@ -2,6 +2,7 @@ const dotenv = require('dotenv')
 dotenv.config({ path: './public/config/config.env' })
 const { MONGO_DB_NAME, MONGO_URL_CON_DB } = process.env
 const { MongoClient } = require('mongodb')
+// const { isRedirect } = require('node-fetch')
 const client = new MongoClient(MONGO_URL_CON_DB)
 
 //Generic function for DB connection
@@ -50,6 +51,11 @@ const createUser = async function (username, password) {
 			if(user.username == username && !exist) {
 				console.log("User already exists ");
 				exist = true
+				return
+			}
+
+			else if(user.username == username && user.password != password){
+				console.log("wrong username \ password");
 				return
 			}
 		})

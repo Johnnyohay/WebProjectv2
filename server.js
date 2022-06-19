@@ -9,7 +9,6 @@ const passport = require('passport')
 const MongoDB = require('./public/js/db')
 const initializePassport = require('./public/js/passport_config')
 
-
 const app = express()
 app.use(express.static('public'))
 app.use(bodyParser.json())
@@ -49,6 +48,10 @@ app.get('/signupPage.html', (req, res) => {
 	res.sendFile(__dirname + '/public/html/signupPage.html')
 })
 
+app.get('/index', (req, res) => {
+	res.sendFile(__dirname + '/public/html/index.html')
+})
+
 app.post('/signup', async (req, res) => {
 	// test to return an error
 	// res.send({
@@ -71,15 +74,46 @@ app.post('/signup', async (req, res) => {
 	return res.redirect('/')
 })
 
-app.post(
-	'/login',
-	checkNotAuthenticated,
-	passport.authenticate('local', {
-		successRedirect: '/homePage',
-		failureRedirect: '/login',
-		failureFlash: true,
-	})
-)
+app.post('/login', async (req, res) => {
+	console.log(req);
+	MongoDB.connectDB().then(async (db) => {
+         return db.collection("Users").findOne({username : req.body.username});
+      }).then( isUser => {
+    // console.log(isUser);
+    // console.log(isUser.password, isUser.username);
+    // console.log(req.body.username, req.body.password);
+	try {
+	if(isUser == null || isUser == undefined) {
+        // console.log("Here 3")
+        res.end('No user with that username');
+		return res.redirect('/');
+      //return done(null, false, { message: 'No user with that username' })
+    }
+
+   
+    if (isUser.password == req.body.password) {
+        console.log("Here 6")
+        return res.redirect('/index')
+      } else {
+        // console.log("Password incorrect");
+		res.end("Password incorrect");
+		return res.redirect('/login_register')
+      }
+    } catch (e) {
+      throw e;
+    }
+})
+})
+
+// app.post(
+// 	'/login',
+// 	checkNotAuthenticated,
+// 	passport.authenticate('local', {
+// 		successRedirect: '/homePage',
+// 		failureRedirect: '/login',
+// 		failureFlash: true,
+// 	})
+// )
 
 function checkAuthenticated(req, res, next) {
 	if (req.isAuthenticated()) {
